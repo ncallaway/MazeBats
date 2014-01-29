@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class WaveParticleReflection : MonoBehaviour {
+	
+	public float energyLoss = 0.7f;
 
 	private WaveParticleData data;
 	
@@ -29,7 +31,6 @@ public class WaveParticleReflection : MonoBehaviour {
 			normalSum += contactPoint.normal;
 		}
 		Vector3 normalAverage = (normalSum / collision.contacts.Length).normalized;
-		Vector3 surfaceDirection = Vector3.Cross(normalAverage, Vector3.forward);
 		Vector3 delta = transform.position - data.WaveParticleOrigin;
 		
 		// Adjust velocity
@@ -37,5 +38,8 @@ public class WaveParticleReflection : MonoBehaviour {
 		
 		// Mirror the origin
 		data.WaveParticleOrigin = data.WaveParticleOrigin + (2*normalAverage*(Vector3.Dot (normalAverage, delta)));
+		
+		// Damage the amplitude
+		data.Height *= energyLoss;
 	}
 }

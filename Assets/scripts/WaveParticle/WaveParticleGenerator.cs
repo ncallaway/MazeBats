@@ -3,8 +3,7 @@ using System.Collections;
 
 public class WaveParticleGenerator : MonoBehaviour {
 	
-	private const int NUMBER_PARTICLES_PER_SPAWN = 64;
-	
+	public float particles = 32;
 	public float frequency = 1;
 	public float amplitude = 1;
 	public float speed = 1;
@@ -27,14 +26,34 @@ public class WaveParticleGenerator : MonoBehaviour {
 	private float nextSpawnTime;
 	private float nextSpawnAmplitude;
 	
-	private void Start ()
-	{	
+	public void StartSpawning()
+	{
 		nextSpawnTime = Time.time + Period / 4;
 		nextSpawnAmplitude = amplitude;
 	}
 	
+	public void StopSpawning()
+	{
+		nextSpawnTime = Mathf.Infinity;
+	}
+	
+	private void Start ()
+	{	
+		StopSpawning();
+	}
+	
 	private void Update ()
 	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			StartSpawning();
+		}
+		
+		if (Input.GetKeyUp(KeyCode.Space))
+		{
+			StopSpawning();
+		}
+		
 		if (Time.time > nextSpawnTime)
 		{
 			Spawn();
@@ -49,9 +68,9 @@ public class WaveParticleGenerator : MonoBehaviour {
 		nextSpawnAmplitude = -nextSpawnAmplitude;
 		
 		// Spawn some new particles
-		for (int i = 0; i < NUMBER_PARTICLES_PER_SPAWN; i++)
+		for (int i = 0; i < particles; i++)
 		{
-			Quaternion rotation = Quaternion.AngleAxis( (float)i * ((float)360 / ((float)NUMBER_PARTICLES_PER_SPAWN)), Vector3.forward );
+			Quaternion rotation = Quaternion.AngleAxis( (float)i * ((float)360 / ((float)particles)), Vector3.forward );
 			
 			Vector3 direction = rotation * Vector3.up;
 			
@@ -60,7 +79,7 @@ public class WaveParticleGenerator : MonoBehaviour {
 			newParticle.Velocity			= direction * speed;
 			newParticle.Height				= spawnHeight;
 			newParticle.WaveParticleOrigin	= transform.position;
-			newParticle.DispersionAngle		= 390 / NUMBER_PARTICLES_PER_SPAWN;
+			newParticle.DispersionAngle		= (float)358 / (float)particles;
 		}
 	}
 }

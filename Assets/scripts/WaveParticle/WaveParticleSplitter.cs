@@ -4,8 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(WaveParticleData))]
 public class WaveParticleSplitter : MonoBehaviour {
 	
-	private const int DISTANCE_TO_SPLIT = 2;
-	private const int DISTANCE_TO_DESTROY = 25;
+	private const int DISTANCE_TO_SPLIT = 1;
 
 	private WaveParticleData data;
 	
@@ -26,7 +25,7 @@ public class WaveParticleSplitter : MonoBehaviour {
 		{
 			// calculate the position of the new particles
 			Quaternion aRotation = Quaternion.AngleAxis(data.DispersionAngle / 2, Vector3.forward);
-			Quaternion bRotation = Quaternion.AngleAxis(data.DispersionAngle / 2, Vector3.forward);
+			Quaternion bRotation = Quaternion.AngleAxis(-data.DispersionAngle / 2, Vector3.forward);
 			
 			Vector3 particlePosition = transform.position - data.WaveParticleOrigin;
 			Vector3 aPosition = (aRotation * particlePosition) + data.WaveParticleOrigin;
@@ -54,11 +53,6 @@ public class WaveParticleSplitter : MonoBehaviour {
 			bParticle.WaveParticleOrigin = data.WaveParticleOrigin;
 			aParticle.DispersionAngle = data.DispersionAngle;
 			bParticle.DispersionAngle = data.DispersionAngle;
-		}
-		
-		Vector3 deltaFromCamera = transform.position - Camera.main.transform.position;
-		if (Mathf.Abs(deltaFromCamera.x) > DISTANCE_TO_DESTROY || Mathf.Abs(deltaFromCamera.y) > DISTANCE_TO_DESTROY) {
-			Destroy(this.gameObject);
 		}
 	}
 }
