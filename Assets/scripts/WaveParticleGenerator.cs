@@ -3,7 +3,7 @@ using System.Collections;
 
 public class WaveParticleGenerator : MonoBehaviour {
 	
-	private const int NUMBER_PARTICLES_PER_SPAWN = 16;
+	private const int NUMBER_PARTICLES_PER_SPAWN = 64;
 	
 	public float frequency = 1;
 	public float amplitude = 1;
@@ -51,8 +51,9 @@ public class WaveParticleGenerator : MonoBehaviour {
 		// Spawn some new particles
 		for (int i = 0; i < NUMBER_PARTICLES_PER_SPAWN; i++)
 		{
-			Quaternion rotation = Quaternion.AngleAxis( i * (360 / NUMBER_PARTICLES_PER_SPAWN), Vector3.forward );
-			Vector3 direction = rotation * Vector3.up;	
+			Quaternion rotation = Quaternion.AngleAxis( (float)i * ((float)360 / ((float)NUMBER_PARTICLES_PER_SPAWN)), Vector3.forward );
+			
+			Vector3 direction = rotation * Vector3.up;
 			
 			WaveParticleData newParticle = (WaveParticleData)GameObject.Instantiate(prefab, transform.position, Quaternion.identity);
 			

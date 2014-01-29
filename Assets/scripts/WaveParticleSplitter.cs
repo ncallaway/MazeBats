@@ -29,8 +29,8 @@ public class WaveParticleSplitter : MonoBehaviour {
 			Quaternion bRotation = Quaternion.AngleAxis(data.DispersionAngle / 2, Vector3.forward);
 			
 			Vector3 particlePosition = transform.position - data.WaveParticleOrigin;
-			Vector3 aPosition = aRotation * particlePosition;
-			Vector3 bPosition = bRotation * particlePosition;
+			Vector3 aPosition = (aRotation * particlePosition) + data.WaveParticleOrigin;
+			Vector3 bPosition = (bRotation * particlePosition) + data.WaveParticleOrigin;
 			
 			Vector3 aVelocity = aRotation * data.Velocity;
 			Vector3 bVelocity = bRotation * data.Velocity;
